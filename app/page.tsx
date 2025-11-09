@@ -4,13 +4,16 @@ import ExploreBtn from '@/components/ExploreBtn'
 import { events } from '@/lib/constants'
 import { IEvent } from '@/database'
 import { basename } from 'path'
+import { cacheLife } from 'next/cache'
 
 
 
 
 const page = async () => {
+  "use cache"
+  cacheLife('hours')
+
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-console.log('base url ', BASE_URL)
   const response = await fetch(`${BASE_URL}/api/events/`)
   const {events} = await response.json()
 
@@ -26,7 +29,7 @@ Event You Can’t Miss</h1>
 
   <ul className='events'>
     {events && events.length > 0 && events.map((event : IEvent, index:number)=>(
-      <li key={index}>
+      <li key={index} className='list-none'>
         <EventCard {...event}/>
       </li>
     ))}

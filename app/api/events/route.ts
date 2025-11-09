@@ -16,7 +16,7 @@ export async function POST(req: NextRequest){
 
         try {
             event = Object.fromEntries(formData.entries())
-            console.log(event)
+            // console.log(event)
 
         } catch (error) {
             return NextResponse.json({message: 'Invalid JSON data format'}, {status: 400})
@@ -41,7 +41,14 @@ export async function POST(req: NextRequest){
 
         event.image = (uploadResult as {secure_url: string}).secure_url
 
-        const createdEvent = await Event.create(event)
+        let tags = JSON.parse(formData.get('tags') as string)
+        let agenda = JSON.parse(formData.get('agenda') as string)
+
+        const createdEvent = await Event.create({
+            ...event,
+            tags: tags,
+            agenda: agenda
+        })
 
         return NextResponse.json({message: 'Event created succesfully', event: createdEvent},{status: 201})
         

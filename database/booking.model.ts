@@ -73,4 +73,4 @@ BookingSchema.index({ email: 1 });
 BookingSchema.index({ eventId: 1, email: 1 }, { unique: true, name: 'uniq_event_email' });
 const Booking = models.Booking || model<IBooking>('Booking', BookingSchema);
 
-export default Booking; 
+export default Booking;
